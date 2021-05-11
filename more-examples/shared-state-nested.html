@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>Reef test: shared state with nested component</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="" />
+
+    <link rel="stylesheet" href="../styles.css">
+
+    <script src="../reef.js"></script>
+</head>
+
+<body>
+
+    <div id="app"></div>
+
+    <script>
+
+        const store = new Reef.Store({
+            data: {
+                count: 0
+            }
+        });
+
+        const app = new Reef('#app', {
+            store: store,
+            template: function (props) {
+                return `
+                    <h1>Simple Reef example: shared state with nested component</h1>
+                    <div>Count: ${props.count}</div>
+                    <div id="calcule"></div>
+                    <button id="increment">Increment</button>
+                `;
+            }
+        });
+
+        const calcule = new Reef('#calcule', {
+            store: store,
+            template: function (props) {
+                return `
+                    Count * 2 = ${props.count * 2}
+                `;
+            },
+            attachTo: app
+        });
+
+        app.render();
+
+        document.getElementById('increment').addEventListener('click', () => {
+            store.data.count++;
+        });
+    </script>
+
+</body>
+
+</html>

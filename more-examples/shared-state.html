@@ -3,14 +3,14 @@
 
 <head>
 
-    <title>Reef test</title>
+    <title>Reef test: shared state</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="" />
 
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../styles.css">
 
-    <script src="reef.js"></script>
+    <script src="../reef.js"></script>
 </head>
 
 <body>
@@ -18,13 +18,18 @@
     <div id="app"></div>
 
     <script>
-        const app = new Reef('#app', {
+
+        const store = new Reef.Store({
             data: {
                 count: 0
-            },
+            }
+        });
+
+        const app = new Reef('#app', {
+            store: store,
             template: function (props) {
                 return `
-                    <h1>Simple Reef example</h1>
+                    <h1>Simple Reef example: shared state</h1>
                     <div>Count: ${props.count}</div>
                     <button id="increment">Increment</button>
                 `;
@@ -34,7 +39,7 @@
         app.render();
 
         document.getElementById('increment').addEventListener('click', () => {
-            app.data.count++;
+            store.data.count++;
         });
     </script>
 
